@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "maybe_project",
+    "password": "ProjectMaybe3!",
+    "database": "bewertungsapp",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "maybe_project",
+    "password": "ProjectMaybe3!",
+    "database": "bewertungsapp",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "maybe_project",
+    "password": "ProjectMaybe3!",
+    "database": "bewertungsapp",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

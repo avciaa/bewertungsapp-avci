@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="de">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planungsvorlage Bewertungsapp</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.5;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            margin-top: 35px;
+        }
+
+        .entity {
+            background: white;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .pk {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Planungsvorlage – Bewertungsapp</h1>
+
+    <p>
+        Datenmodell für die Bewertungsapp aus Einheit 2.
+    </p>
+
+    <h2>ER-Diagramm</h2>
+
+<div class="mermaid">
+erDiagram
+
+    TEAM ||--o{ MEMBER : "hat"
+    TEAM ||--o{ PROJECT : "hat"
+
+    PROJECT ||--o{ EVALUATION : "wird bewertet durch"
+    CRITERION ||--o{ EVALUATION : "wird verwendet in"
+    JUROR ||--o{ EVALUATION : "erstellt"
+
+    TEAM {
+        INTEGER id PK
+        STRING name
+        STRING klasse
+    }
+
+    MEMBER {
+        INTEGER id PK
+        INTEGER teamId FK
+        STRING vorname
+        STRING nachname
+    }
+
+    PROJECT {
+        INTEGER id PK
+        INTEGER teamId FK
+        STRING titel
+        TEXT beschreibung
+        DATE praesentiertAm
+    }
+
+    CRITERION {
+        INTEGER id PK
+        STRING name
+        INTEGER maxScore
+        DECIMAL weight
+    }
+
+    JUROR {
+        INTEGER id PK
+        STRING name
+        STRING email
+    }
+
+    EVALUATION {
+        INTEGER id PK
+        INTEGER projectId FK
+        INTEGER criterionId FK
+        INTEGER jurorId FK
+        INTEGER score
+        TEXT comment
+    }
+</div>
+
+    <div class="entity">
+        <h2>Team</h2>
+
+        <table>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Datentyp</th>
+                <th>Constraint</th>
+            </tr>
+            <tr>
+                <td class="pk">id</td>
+                <td>INTEGER</td>
+                <td>Primärschlüssel, automatisch</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>klasse</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="entity">
+        <h2>Member</h2>
+
+        <table>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Datentyp</th>
+                <th>Constraint</th>
+            </tr>
+            <tr>
+                <td class="pk">id</td>
+                <td>INTEGER</td>
+                <td>Primärschlüssel, automatisch</td>
+            </tr>
+            <tr>
+                <td>teamId</td>
+                <td>INTEGER</td>
+                <td>Fremdschlüssel → Team.id, NOT NULL</td>
+            </tr>
+            <tr>
+                <td>vorname</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>nachname</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="entity">
+        <h2>Project</h2>
+
+        <table>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Datentyp</th>
+                <th>Constraint</th>
+            </tr>
+            <tr>
+                <td class="pk">id</td>
+                <td>INTEGER</td>
+                <td>Primärschlüssel, automatisch</td>
+            </tr>
+            <tr>
+                <td>teamId</td>
+                <td>INTEGER</td>
+                <td>Fremdschlüssel → Team.id, NOT NULL</td>
+            </tr>
+            <tr>
+                <td>titel</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>beschreibung</td>
+                <td>TEXT</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>praesentiertAm</td>
+                <td>DATE</td>
+                <td>NOT NULL</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="entity">
+        <h2>Criterion</h2>
+
+        <table>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Datentyp</th>
+                <th>Constraint</th>
+            </tr>
+            <tr>
+                <td class="pk">id</td>
+                <td>INTEGER</td>
+                <td>Primärschlüssel, automatisch</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>maxScore</td>
+                <td>INTEGER</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>weight</td>
+                <td>DECIMAL</td>
+                <td>NOT NULL</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="entity">
+        <h2>Juror</h2>
+
+        <table>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Datentyp</th>
+                <th>Constraint</th>
+            </tr>
+            <tr>
+                <td class="pk">id</td>
+                <td>INTEGER</td>
+                <td>Primärschlüssel, automatisch</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>STRING</td>
+                <td>NOT NULL</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="entity">
+        <h2>Evaluation</h2>
+
+        <table>
+            <tr>
+                <th>Spaltenname</th>
+                <th>Datentyp</th>
+                <th>Constraint</th>
+            </tr>
+            <tr>
+                <td class="pk">id</td>
+                <td>INTEGER</td>
+                <td>Primärschlüssel, automatisch</td>
+            </tr>
+            <tr>
+                <td>projectId</td>
+                <td>INTEGER</td>
+                <td>Fremdschlüssel → Project.id, NOT NULL</td>
+            </tr>
+            <tr>
+                <td>criterionId</td>
+                <td>INTEGER</td>
+                <td>Fremdschlüssel → Criterion.id, NOT NULL</td>
+            </tr>
+            <tr>
+                <td>jurorId</td>
+                <td>INTEGER</td>
+                <td>Fremdschlüssel → Juror.id, NOT NULL</td>
+            </tr>
+            <tr>
+                <td>score</td>
+                <td>INTEGER</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td>comment</td>
+                <td>TEXT</td>
+                <td>NOT NULL</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Zusätzlich: UNIQUE(projectId, criterionId, jurorId)
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
