@@ -1,324 +1,2425 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true });
-    </script>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planungsvorlage Bewertungsapp</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ER-Diagramm – Decision Making App</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.5;
-            background: #f5f5f5;
-        }
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
 
-        h1 {
-            margin-bottom: 5px;
-        }
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "neutral"
+    });
+  </script>
 
-        h2 {
-            margin-top: 35px;
-        }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #1f2937;
+    }
 
-        .entity {
-            background: white;
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 8px;
-        }
+    header {
+      background: #1f2937;
+      color: white;
+      padding: 30px 40px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+    header h1 {
+      margin: 0 0 8px;
+    }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
+    main {
+      max-width: 1500px;
+      margin: 30px auto;
+      padding: 0 25px 50px;
+    }
 
-        th {
-            background: #eee;
-        }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
 
-        .pk {
-            font-weight: bold;
-        }
-    </style>
+    h2 {
+      margin-top: 0;
+    }
+
+    h3 {
+      margin-top: 25px;
+    }
+
+    .diagram {
+      overflow-x: auto;
+      padding: 20px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th,
+    td {
+      border: 1px solid #d1d5db;
+      padding: 9px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
+    code {
+      background: #eef2f7;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: #111827;
+      color: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    .note {
+      background: #f9fafb;
+      border-left: 5px solid #4b5563;
+      padding: 15px 18px;
+      margin: 15px 0;
+    }
+
+    .important {
+      background: #fff7ed;
+      border-left: 5px solid #f97316;
+      padding: 15px 18px;
+      margin: 15px 0;
+    }
+
+    .success {
+      background: #ecfdf5;
+      border-left: 5px solid #10b981;
+      padding: 15px 18px;
+      margin: 15px 0;
+    }
+
+    .warning {
+      background: #fef2f2;
+      border-left: 5px solid #ef4444;
+      padding: 15px 18px;
+      margin: 15px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e5e7eb;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 0.9em;
+      margin: 2px;
+    }
+  </style>
 </head>
 
 <body>
 
-    <h1>Planungsvorlage – Bewertungsapp</h1>
+<header>
+  <h1>ER-Diagramm – Decision Making App</h1>
+  <div>
+    Vue Frontend · Node.js · Express API · PostgreSQL (Docker) · Gemini AI
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================================================== -->
+  <!-- 1. ER DIAGRAM -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>1. ER-Diagramm</h2>
 
     <p>
-        Datenmodell für die Bewertungsapp aus Einheit 2.
+      Das Datenmodell beschreibt die zentrale Datenstruktur der
+      Decision-Making-App. Eine <code>DECISION</code> besitzt mehrere
+      vom Benutzer definierte <code>DECISION_OPTION</code>-Einträge.
     </p>
 
-    <h2>ER-Diagramm</h2>
+    <p>
+      Benutzerinformationen und vom Benutzer erstellte Entscheidungsdaten
+      werden klar von AI-generierten Analyseergebnissen getrennt.
+    </p>
 
-<div class="mermaid">
+    <div class="diagram">
+
+      <div class="mermaid">
+
 erDiagram
 
-    TEAM ||--o{ MEMBER : "hat"
-    TEAM ||--o{ PROJECT : "hat"
+    USER ||--|| USER_PROFILE : "hat"
 
-    PROJECT ||--o{ EVALUATION : "wird bewertet durch"
-    CRITERION ||--o{ EVALUATION : "wird verwendet in"
-    JUROR ||--o{ EVALUATION : "erstellt"
+    USER ||--o{ DECISION : "erstellt"
 
-    TEAM {
-        INTEGER id PK
-        STRING name
-        STRING klasse
+    DECISION ||--o{ DECISION_OPTION : "enthaelt"
+
+    DECISION ||--o| MISSING_INFORMATION : "kann enthalten"
+
+    DECISION ||--o{ PERSONAL_QUESTION : "enthaelt"
+
+    DECISION ||--o{ REFLECTION : "wird reflektiert"
+
+    DECISION ||--o{ AI_ANALYSIS : "wird analysiert"
+
+    DECISION_OPTION ||--o{ PRO_CONTRA : "enthaelt"
+
+    DECISION_OPTION ||--o{ ASSUMPTION : "enthaelt"
+
+    DECISION_OPTION ||--o{ BENEFIT : "enthaelt"
+
+    DECISION_OPTION ||--o{ PERSONAL_QUESTION : "bezieht sich auf"
+
+    DECISION_OPTION ||--o{ AI_SUGGESTION : "bezieht sich auf"
+
+    AI_ANALYSIS ||--o{ AI_SUGGESTION : "erzeugt"
+
+    AI_ANALYSIS ||--o{ DECISION_EMOTION : "erkennt"
+
+    EMOTION ||--o{ DECISION_EMOTION : "klassifiziert"
+
+
+    USER {
+        int id PK
+        string email UK
+        string password_hash
+        datetime created_at
     }
 
-    MEMBER {
-        INTEGER id PK
-        INTEGER teamId FK
-        STRING vorname
-        STRING nachname
+
+    USER_PROFILE {
+        int id PK
+        int user_id FK,UK
+        string decision_style
+        string risk_tolerance
+        string personal_priorities
+        string language
+        datetime updated_at
     }
 
-    PROJECT {
-        INTEGER id PK
-        INTEGER teamId FK
-        STRING titel
-        TEXT beschreibung
-        DATE praesentiertAm
+
+    DECISION {
+        int id PK
+        int user_id FK
+        string question
+        text context
+        datetime deadline
+        int final_option_id FK
+        int confidence
+        datetime decided_at
+        datetime created_at
+        datetime updated_at
     }
 
-    CRITERION {
-        INTEGER id PK
-        STRING name
-        INTEGER maxScore
-        DECIMAL weight
+
+    DECISION_OPTION {
+        int id PK
+        int decision_id FK
+        string title
+        text description
+        datetime created_at
     }
 
-    JUROR {
-        INTEGER id PK
-        STRING name
-        STRING email
+
+    PRO_CONTRA {
+        int id PK
+        int option_id FK
+        string type
+        text content
+        int importance
+        boolean user_created
+        datetime created_at
+        datetime updated_at
     }
 
-    EVALUATION {
-        INTEGER id PK
-        INTEGER projectId FK
-        INTEGER criterionId FK
-        INTEGER jurorId FK
-        INTEGER score
-        TEXT comment
+
+    ASSUMPTION {
+        int id PK
+        int option_id FK
+        text assumption
+        text immediate_consequence
+        text short_term_consequence
+        text long_term_consequence
+        decimal likelihood
+        boolean user_created
+        datetime created_at
     }
-</div>
 
-    <div class="entity">
-        <h2>Team</h2>
 
-        <table>
-            <tr>
-                <th>Spaltenname</th>
-                <th>Datentyp</th>
-                <th>Constraint</th>
-            </tr>
-            <tr>
-                <td class="pk">id</td>
-                <td>INTEGER</td>
-                <td>Primärschlüssel, automatisch</td>
-            </tr>
-            <tr>
-                <td>name</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>klasse</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-        </table>
+    BENEFIT {
+        int id PK
+        int option_id FK
+        text content
+        boolean user_created
+        datetime created_at
+    }
+
+
+    PERSONAL_QUESTION {
+        int id PK
+        int decision_id FK
+        int option_id FK
+        text question
+        text purpose
+        boolean user_created
+        datetime created_at
+    }
+
+
+    MISSING_INFORMATION {
+        int id PK
+        int decision_id FK
+        text content
+        boolean resolved
+        datetime created_at
+    }
+
+
+    AI_ANALYSIS {
+        int id PK
+        int decision_id FK
+        string prompt_version
+        string model
+        jsonb decision_tree
+        datetime created_at
+    }
+
+
+    AI_SUGGESTION {
+        int id PK
+        int analysis_id FK
+        int option_id FK
+        string type
+        text content
+        string status
+        datetime created_at
+    }
+
+
+    EMOTION {
+        int id PK
+        string name UK
+        string room_element
+        text description
+    }
+
+
+    DECISION_EMOTION {
+        int id PK
+        int analysis_id FK
+        int emotion_id FK
+        int confidence
+        text evidence
+        datetime created_at
+    }
+
+
+    REFLECTION {
+        int id PK
+        int decision_id FK
+        int user_id FK
+        text what_decided
+        text why_decided
+        text expected_outcome
+        text fear
+        text hope
+        text actual_outcome
+        int confidence
+        datetime reflection_date
+    }
+
+      </div>
+
     </div>
 
-    <div class="entity">
-        <h2>Member</h2>
+    <div class="important">
 
-        <table>
-            <tr>
-                <th>Spaltenname</th>
-                <th>Datentyp</th>
-                <th>Constraint</th>
-            </tr>
-            <tr>
-                <td class="pk">id</td>
-                <td>INTEGER</td>
-                <td>Primärschlüssel, automatisch</td>
-            </tr>
-            <tr>
-                <td>teamId</td>
-                <td>INTEGER</td>
-                <td>Fremdschlüssel → Team.id, NOT NULL</td>
-            </tr>
-            <tr>
-                <td>vorname</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>nachname</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-        </table>
+      <strong>Wichtig:</strong>
+
+      <p>
+        Der Entscheidungsbaum wird in der aktuellen AI-Architektur
+        zunächst als temporäre AI-Ausgabe erzeugt.
+        Deshalb wird er hier als optionales <code>JSONB</code>-Feld
+        in <code>AI_ANALYSIS</code> dargestellt.
+      </p>
+
+      <p>
+        Falls Entscheidungsbäume später einzeln bearbeitet, durchsucht
+        oder versioniert werden sollen, können daraus wieder eigene
+        Tabellen entstehen.
+      </p>
+
     </div>
 
-    <div class="entity">
-        <h2>Project</h2>
+  </section>
 
-        <table>
-            <tr>
-                <th>Spaltenname</th>
-                <th>Datentyp</th>
-                <th>Constraint</th>
-            </tr>
-            <tr>
-                <td class="pk">id</td>
-                <td>INTEGER</td>
-                <td>Primärschlüssel, automatisch</td>
-            </tr>
-            <tr>
-                <td>teamId</td>
-                <td>INTEGER</td>
-                <td>Fremdschlüssel → Team.id, NOT NULL</td>
-            </tr>
-            <tr>
-                <td>titel</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>beschreibung</td>
-                <td>TEXT</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>praesentiertAm</td>
-                <td>DATE</td>
-                <td>NOT NULL</td>
-            </tr>
-        </table>
+
+  <!-- ===================================================== -->
+  <!-- 2. CENTRAL STRUCTURE -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>2. Zentrale Datenstruktur</h2>
+
+    <div class="important">
+
+      <strong>Die Benutzerentscheidung bleibt die zentrale Datenquelle.</strong>
+
+      <p>
+        Die AI analysiert die vorhandenen Daten und erzeugt getrennte
+        Vorschläge. Sie verändert nicht automatisch die Benutzerdaten.
+      </p>
+
     </div>
 
-    <div class="entity">
-        <h2>Criterion</h2>
+    <p>
 
-        <table>
-            <tr>
-                <th>Spaltenname</th>
-                <th>Datentyp</th>
-                <th>Constraint</th>
-            </tr>
-            <tr>
-                <td class="pk">id</td>
-                <td>INTEGER</td>
-                <td>Primärschlüssel, automatisch</td>
-            </tr>
-            <tr>
-                <td>name</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>maxScore</td>
-                <td>INTEGER</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>weight</td>
-                <td>DECIMAL</td>
-                <td>NOT NULL</td>
-            </tr>
-        </table>
+      <strong>USER</strong>
+
+      →
+
+      <strong>DECISION</strong>
+
+      →
+
+      <strong>DECISION_OPTION</strong>
+
+      →
+
+      <strong>PRO_CONTRA</strong>,
+
+      <strong>ASSUMPTION</strong>,
+
+      <strong>BENEFIT</strong>
+
+    </p>
+
+    <p>
+
+      Parallel dazu:
+
+    </p>
+
+    <p>
+
+      <strong>DECISION</strong>
+
+      →
+
+      <strong>AI_ANALYSIS</strong>
+
+      →
+
+      <strong>AI_SUGGESTION</strong>
+
+    </p>
+
+    <p>
+
+      und:
+
+    </p>
+
+    <p>
+
+      <strong>AI_ANALYSIS</strong>
+
+      →
+
+      <strong>DECISION_EMOTION</strong>
+
+      →
+
+      <strong>EMOTION</strong>
+
+    </p>
+
+    <div class="success">
+
+      <strong>AI-Prinzip:</strong>
+
+      <p>
+        Die AI ist ein Analysewerkzeug und nicht die Quelle der
+        eigentlichen Entscheidungsdaten.
+      </p>
+
+      <p>
+        Wenn ein Benutzer einen AI-Vorschlag akzeptiert, wird dieser
+        explizit als Benutzerdaten übernommen bzw. neu erstellt.
+      </p>
+
     </div>
 
-    <div class="entity">
-        <h2>Juror</h2>
+  </section>
 
-        <table>
-            <tr>
-                <th>Spaltenname</th>
-                <th>Datentyp</th>
-                <th>Constraint</th>
-            </tr>
-            <tr>
-                <td class="pk">id</td>
-                <td>INTEGER</td>
-                <td>Primärschlüssel, automatisch</td>
-            </tr>
-            <tr>
-                <td>name</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>email</td>
-                <td>STRING</td>
-                <td>NOT NULL</td>
-            </tr>
-        </table>
+
+  <!-- ===================================================== -->
+  <!-- 3. IMPORTANT DATABASE CHANGES -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>3. Wichtige Änderungen gegenüber der alten Version</h2>
+
+    <table>
+
+      <tr>
+        <th>Alt</th>
+        <th>Neu</th>
+        <th>Grund</th>
+      </tr>
+
+      <tr>
+        <td>
+          <code>DECISION.final_choice</code><br>
+          string
+        </td>
+
+        <td>
+          <code>DECISION.final_option_id</code><br>
+          FK → DECISION_OPTION.id
+        </td>
+
+        <td>
+          Die endgültige Entscheidung verweist direkt auf eine tatsächlich
+          existierende Option. Dadurch werden Inkonsistenzen verhindert.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>decision_id</code> + <code>option_id</code>
+          in PRO_CONTRA
+        </td>
+
+        <td>
+          Nur <code>option_id</code>
+        </td>
+
+        <td>
+          Die Entscheidung kann über
+          DECISION_OPTION → DECISION ermittelt werden.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>decision_id</code> + <code>option_id</code>
+          in ASSUMPTION
+        </td>
+
+        <td>
+          Nur <code>option_id</code>
+        </td>
+
+        <td>
+          Vermeidet widersprüchliche Kombinationen.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>decision_id</code> + <code>option_id</code>
+          in BENEFIT
+        </td>
+
+        <td>
+          Nur <code>option_id</code>
+        </td>
+
+        <td>
+          Benefit gehört eindeutig zu einer Option.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          AI_SUGGESTION direkt an DECISION
+        </td>
+
+        <td>
+          AI_SUGGESTION → AI_ANALYSIS
+        </td>
+
+        <td>
+          Mehrere AI-Analysen einer Entscheidung werden unterscheidbar.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          AI_SUGGESTION.source
+        </td>
+
+        <td>
+          entfernt
+        </td>
+
+        <td>
+          Derzeit existiert nur ein AI-Analyse-System. Der Analyse-Datensatz
+          selbst beschreibt bereits den Ursprung.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          DECISION_TREE + BRANCH + OUTCOME
+        </td>
+
+        <td>
+          optionales <code>AI_ANALYSIS.decision_tree JSONB</code>
+        </td>
+
+        <td>
+          Entspricht besser der aktuellen AI-Ausgabe.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          DECISION_EMOTION direkt an DECISION
+        </td>
+
+        <td>
+          DECISION_EMOTION → AI_ANALYSIS
+        </td>
+
+        <td>
+          Es ist nachvollziehbar, aus welcher AI-Analyse die Emotionserkennung
+          stammt.
+        </td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 4. ENTITIES -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>4. Entitäten und Aufgaben</h2>
+
+    <table>
+
+      <tr>
+        <th>Entität</th>
+        <th>Aufgabe</th>
+      </tr>
+
+      <tr>
+        <td><code>USER</code></td>
+        <td>
+          Benutzerkonto. Entscheidungen und Reflexionen werden
+          einem Benutzer zugeordnet.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>USER_PROFILE</code></td>
+        <td>
+          Persönliche Präferenzen und Entscheidungsfaktoren.
+          Diese Daten können der AI als Kontext dienen.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>DECISION</code></td>
+        <td>
+          Zentrale Entität einer Entscheidung.
+          Enthält Frage, Kontext, Deadline und die optionale
+          Referenz auf die tatsächlich gewählte Option.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>DECISION_OPTION</code></td>
+        <td>
+          Vom Benutzer definierte Möglichkeit innerhalb einer Entscheidung.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>PRO_CONTRA</code></td>
+        <td>
+          Pro- oder Contra-Argument für eine konkrete Option.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>ASSUMPTION</code></td>
+        <td>
+          Unsichere Annahmen und mögliche unmittelbare,
+          kurzfristige oder langfristige Konsequenzen einer Option.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>BENEFIT</code></td>
+        <td>
+          Möglicher Vorteil einer Option.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>PERSONAL_QUESTION</code></td>
+        <td>
+          Reflexionsfrage für den Benutzer.
+          Kann entweder die gesamte Entscheidung oder eine konkrete
+          Option betreffen.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>MISSING_INFORMATION</code></td>
+        <td>
+          Informationen, die für die Entscheidung relevant sein könnten,
+          aber noch fehlen.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>AI_ANALYSIS</code></td>
+        <td>
+          Eine konkrete Ausführung der AI-Analyse.
+          Dadurch können mehrere Analysen derselben Entscheidung
+          unterschieden werden.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>AI_SUGGESTION</code></td>
+        <td>
+          Einzelner Vorschlag der AI. Bleibt getrennt von den
+          tatsächlichen Benutzerdaten.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>EMOTION</code></td>
+        <td>
+          Katalog möglicher Emotionen für die spätere Reflexionswelt.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>DECISION_EMOTION</code></td>
+        <td>
+          Verbindet eine AI-Analyse mit einer erkannten Emotion.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>REFLECTION</code></td>
+        <td>
+          Spätere Selbstreflexion über eine Entscheidung.
+          Mehrere Reflexionen pro Entscheidung sind möglich.
+        </td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 5. DECISION -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>5. DECISION</h2>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Typ</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+        <td>Eindeutige ID der Entscheidung.</td>
+      </tr>
+
+      <tr>
+        <td><code>user_id</code></td>
+        <td>FK</td>
+        <td>Benutzer, dem die Entscheidung gehört.</td>
+      </tr>
+
+      <tr>
+        <td><code>question</code></td>
+        <td>string</td>
+        <td>Die eigentliche Entscheidungsfrage.</td>
+      </tr>
+
+      <tr>
+        <td><code>context</code></td>
+        <td>text</td>
+        <td>Zusätzlicher Kontext zur Entscheidung.</td>
+      </tr>
+
+      <tr>
+        <td><code>deadline</code></td>
+        <td>datetime, nullable</td>
+        <td>Optionale Frist.</td>
+      </tr>
+
+      <tr>
+        <td><code>final_option_id</code></td>
+        <td>FK, nullable</td>
+        <td>
+          Verweist auf die tatsächlich gewählte
+          <code>DECISION_OPTION</code>.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>confidence</code></td>
+        <td>integer, nullable</td>
+        <td>
+          Vertrauen des Benutzers in die eigene Entscheidung.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>decided_at</code></td>
+        <td>datetime, nullable</td>
+        <td>Zeitpunkt der Entscheidung.</td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>datetime</td>
+        <td>Erstellungszeitpunkt.</td>
+      </tr>
+
+      <tr>
+        <td><code>updated_at</code></td>
+        <td>datetime</td>
+        <td>Letzte Änderung.</td>
+      </tr>
+
+    </table>
+
+    <div class="success">
+
+      <strong>Warum final_option_id?</strong>
+
+      <p>
+        Statt beispielsweise <code>"Studium"</code> als freien Text
+        zu speichern, verweist die Datenbank direkt auf die Option.
+      </p>
+
+      <p>
+        Dadurch kann keine inkonsistente Kombination entstehen,
+        bei der die gespeicherte finale Auswahl nicht zu den vorhandenen
+        Optionen gehört.
+      </p>
+
     </div>
 
-    <div class="entity">
-        <h2>Evaluation</h2>
+  </section>
 
-        <table>
-            <tr>
-                <th>Spaltenname</th>
-                <th>Datentyp</th>
-                <th>Constraint</th>
-            </tr>
-            <tr>
-                <td class="pk">id</td>
-                <td>INTEGER</td>
-                <td>Primärschlüssel, automatisch</td>
-            </tr>
-            <tr>
-                <td>projectId</td>
-                <td>INTEGER</td>
-                <td>Fremdschlüssel → Project.id, NOT NULL</td>
-            </tr>
-            <tr>
-                <td>criterionId</td>
-                <td>INTEGER</td>
-                <td>Fremdschlüssel → Criterion.id, NOT NULL</td>
-            </tr>
-            <tr>
-                <td>jurorId</td>
-                <td>INTEGER</td>
-                <td>Fremdschlüssel → Juror.id, NOT NULL</td>
-            </tr>
-            <tr>
-                <td>score</td>
-                <td>INTEGER</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td>comment</td>
-                <td>TEXT</td>
-                <td>NOT NULL</td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    Zusätzlich: UNIQUE(projectId, criterionId, jurorId)
-                </td>
-            </tr>
-        </table>
+
+  <!-- ===================================================== -->
+  <!-- 6. OPTIONS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>6. DECISION_OPTION</h2>
+
+    <p>
+      Die Optionen werden vom Benutzer definiert.
+      Die AI darf sie analysieren, aber nicht eigenständig umbenennen,
+      löschen oder neue Optionen erzeugen.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Typ</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+        <td>Eindeutige Option-ID.</td>
+      </tr>
+
+      <tr>
+        <td><code>decision_id</code></td>
+        <td>FK</td>
+        <td>Entscheidung, zu der die Option gehört.</td>
+      </tr>
+
+      <tr>
+        <td><code>title</code></td>
+        <td>string</td>
+        <td>Name/Titel der Option.</td>
+      </tr>
+
+      <tr>
+        <td><code>description</code></td>
+        <td>text, nullable</td>
+        <td>Optionale Beschreibung.</td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>datetime</td>
+        <td>Erstellungszeitpunkt.</td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 7. OPTION DEPENDENT DATA -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>7. Option-abhängige Daten</h2>
+
+    <p>
+      Diese Tabellen enthalten bewusst <strong>keinen</strong>
+      <code>decision_id</code> mehr.
+    </p>
+
+    <p>
+      Die Zugehörigkeit zur Entscheidung kann immer über
+      <code>option_id → DECISION_OPTION → DECISION</code>
+      bestimmt werden.
+    </p>
+
+    <div class="important">
+
+      <strong>Beispiel:</strong>
+
+      <pre>
+DECISION
+   |
+   +-- DECISION_OPTION #27
+          |
+          +-- PRO_CONTRA
+          +-- ASSUMPTION
+          +-- BENEFIT
+
+Option #27 gehört eindeutig zu genau einer Decision.
+      </pre>
+
     </div>
+
+    <p>
+      Dadurch wird eine fehlerhafte Kombination wie
+      <code>decision_id = 5</code> und
+      <code>option_id = 27</code>, obwohl Option 27 zu Decision 8 gehört,
+      verhindert.
+    </p>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 8. PRO CONTRA -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>8. PRO_CONTRA</h2>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Typ</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+        <td>Eindeutige ID.</td>
+      </tr>
+
+      <tr>
+        <td><code>option_id</code></td>
+        <td>FK</td>
+        <td>Zugehörige Option.</td>
+      </tr>
+
+      <tr>
+        <td><code>type</code></td>
+        <td>enum/string</td>
+        <td><code>pro</code> oder <code>contra</code>.</td>
+      </tr>
+
+      <tr>
+        <td><code>content</code></td>
+        <td>text</td>
+        <td>Inhalt des Arguments.</td>
+      </tr>
+
+      <tr>
+        <td><code>importance</code></td>
+        <td>integer, nullable</td>
+        <td>
+          Bedeutung des Arguments.
+          Empfohlener Bereich: <code>1–10</code>.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>user_created</code></td>
+        <td>boolean</td>
+        <td>
+          Gibt an, ob der Eintrag vom Benutzer erstellt wurde.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>datetime</td>
+        <td>Erstellungszeitpunkt.</td>
+      </tr>
+
+      <tr>
+        <td><code>updated_at</code></td>
+        <td>datetime</td>
+        <td>Letzte Änderung.</td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 9. ASSUMPTIONS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>9. ASSUMPTION</h2>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Typ</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+        <td>Eindeutige ID.</td>
+      </tr>
+
+      <tr>
+        <td><code>option_id</code></td>
+        <td>FK</td>
+        <td>Zugehörige Option.</td>
+      </tr>
+
+      <tr>
+        <td><code>assumption</code></td>
+        <td>text</td>
+        <td>Unsichere Annahme.</td>
+      </tr>
+
+      <tr>
+        <td><code>immediate_consequence</code></td>
+        <td>text</td>
+        <td>Mögliche unmittelbare Konsequenz.</td>
+      </tr>
+
+      <tr>
+        <td><code>short_term_consequence</code></td>
+        <td>text</td>
+        <td>Mögliche kurzfristige Konsequenz.</td>
+      </tr>
+
+      <tr>
+        <td><code>long_term_consequence</code></td>
+        <td>text</td>
+        <td>Mögliche langfristige Konsequenz.</td>
+      </tr>
+
+      <tr>
+        <td><code>likelihood</code></td>
+        <td>decimal, nullable</td>
+        <td>
+          Stärke/Unterstützung der Eingabe bzw. Einschätzung.
+          Kein automatisch berechnetes Realwelt-Wahrscheinlichkeitsmaß.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>user_created</code></td>
+        <td>boolean</td>
+        <td>Vom Benutzer erstellt oder übernommen.</td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>datetime</td>
+        <td>Erstellungszeitpunkt.</td>
+      </tr>
+
+    </table>
+
+    <div class="warning">
+
+      <strong>Wichtig zur aktuellen AI:</strong>
+
+      <p>
+        Deine aktuelle AI soll keine echten Wahrscheinlichkeiten schätzen.
+        Deshalb setzt dein Code aktuell
+        <code>likelihood: "unknown"</code>.
+      </p>
+
+      <p>
+        Das Datenbankfeld kann daher zunächst nullable sein.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 10. PERSONAL QUESTIONS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>10. PERSONAL_QUESTION</h2>
+
+    <p>
+      Eine persönliche Frage kann sich entweder auf die gesamte Entscheidung
+      oder auf eine konkrete Option beziehen.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>option_id</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>NULL</code></td>
+        <td>
+          Frage betrifft die gesamte Entscheidung.
+          Beispiel:
+          <em>"Was ist dir bei dieser Entscheidung am wichtigsten?"</em>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Option-ID</td>
+        <td>
+          Frage betrifft eine konkrete Option.
+          Beispiel:
+          <em>"Würde Option A dir mehr Unabhängigkeit geben?"</em>
+        </td>
+      </tr>
+
+    </table>
+
+    <p>
+      Deshalb ist <code>option_id</code> hier bewusst nullable.
+    </p>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 11. AI ANALYSIS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>11. AI_ANALYSIS</h2>
+
+    <p>
+      <code>AI_ANALYSIS</code> repräsentiert eine einzelne vollständige
+      Ausführung der AI-Analyse.
+    </p>
+
+    <pre>
+DECISION #42
+    |
+    +-- AI_ANALYSIS #1
+    |      |
+    |      +-- AI_SUGGESTION
+    |      +-- DECISION_EMOTION
+    |
+    +-- AI_ANALYSIS #2
+           |
+           +-- AI_SUGGESTION
+           +-- DECISION_EMOTION
+    </pre>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Typ</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+        <td>Eindeutige Analyse-ID.</td>
+      </tr>
+
+      <tr>
+        <td><code>decision_id</code></td>
+        <td>FK</td>
+        <td>Entscheidung, die analysiert wurde.</td>
+      </tr>
+
+      <tr>
+        <td><code>prompt_version</code></td>
+        <td>string</td>
+        <td>
+          Version des verwendeten AI-Prompts.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>model</code></td>
+        <td>string</td>
+        <td>
+          Verwendetes AI-Modell, z. B. das in
+          <code>GEMINI_MODEL</code> konfigurierte Modell.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>decision_tree</code></td>
+        <td>JSONB, nullable</td>
+        <td>
+          Optional gespeicherter Entscheidungsbaum.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>datetime</td>
+        <td>Zeitpunkt der AI-Analyse.</td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 12. AI SUGGESTION -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>12. AI_SUGGESTION</h2>
+
+    <p>
+      Die AI erzeugt keine endgültigen Benutzerdaten.
+      Sie erzeugt Vorschläge, die der Benutzer anschließend akzeptieren,
+      bearbeiten, löschen oder ignorieren kann.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Typ</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+        <td>Eindeutige ID.</td>
+      </tr>
+
+      <tr>
+        <td><code>analysis_id</code></td>
+        <td>FK</td>
+        <td>AI-Analyse, aus der der Vorschlag stammt.</td>
+      </tr>
+
+      <tr>
+        <td><code>option_id</code></td>
+        <td>FK, nullable</td>
+        <td>
+          Option, auf die sich der Vorschlag bezieht.
+          NULL bedeutet: gesamte Entscheidung.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>type</code></td>
+        <td>enum/string</td>
+        <td>
+          Beispielsweise
+          <code>pro</code>,
+          <code>contra</code>,
+          <code>assumption</code>,
+          <code>benefit</code>,
+          <code>question</code>,
+          <code>consequence</code>.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>content</code></td>
+        <td>text</td>
+        <td>Inhalt des AI-Vorschlags.</td>
+      </tr>
+
+      <tr>
+        <td><code>status</code></td>
+        <td>enum/string</td>
+        <td>
+          <code>pending</code>,
+          <code>accepted</code> oder
+          <code>rejected</code>.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>datetime</td>
+        <td>Erstellungszeitpunkt.</td>
+      </tr>
+
+    </table>
+
+    <div class="success">
+
+      <strong>Wichtig:</strong>
+
+      <p>
+        AI_SUGGESTION wird niemals direkt zu
+        <code>PRO_CONTRA</code>, <code>ASSUMPTION</code> oder
+        <code>BENEFIT</code>, ohne dass die Anwendung dies explizit
+        durch eine Benutzeraktion übernimmt.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 13. CURRENT AI CONTRACT -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>13. Abgleich mit dem aktuellen AI-Code</h2>
+
+    <p>
+      Die aktuelle AI liefert pro Option genau einen Analyseblock.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>AI Output</th>
+        <th>Datenmodell</th>
+      </tr>
+
+      <tr>
+        <td><code>optionId</code></td>
+        <td><code>DECISION_OPTION.id</code></td>
+      </tr>
+
+      <tr>
+        <td><code>pros</code></td>
+        <td><code>PRO_CONTRA</code> mit type = <code>pro</code></td>
+      </tr>
+
+      <tr>
+        <td><code>cons</code></td>
+        <td><code>PRO_CONTRA</code> mit type = <code>contra</code></td>
+      </tr>
+
+      <tr>
+        <td><code>benefits</code></td>
+        <td><code>BENEFIT</code></td>
+      </tr>
+
+      <tr>
+        <td><code>assumptions</code></td>
+        <td><code>ASSUMPTION</code></td>
+      </tr>
+
+      <tr>
+        <td><code>questions</code></td>
+        <td><code>PERSONAL_QUESTION</code></td>
+      </tr>
+
+      <tr>
+        <td><code>branches</code></td>
+        <td>
+          aktuell Bestandteil von <code>AI_ANALYSIS.decision_tree</code>
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>missingInformation</code></td>
+        <td><code>MISSING_INFORMATION</code></td>
+      </tr>
+
+    </table>
+
+    <div class="note">
+
+      <strong>Wichtiger Punkt:</strong>
+
+      <p>
+        Dein aktueller AI-Code erzeugt keine
+        <code>confidence</code>- oder <code>likelihood</code>-Werte.
+        Diese werden bewusst von der Anwendung bzw. später vom Benutzer
+        gesetzt.
+      </p>
+
+      <p>
+        Das passt zum Prinzip, dass die AI keine erfundenen numerischen
+        Wahrscheinlichkeiten oder Bewertungen erzeugen soll.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 14. AI SOURCE / PROVENANCE -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>14. Herkunft von AI-Informationen</h2>
+
+    <p>
+      Deine aktuelle AI verwendet drei mögliche <code>basis</code>-Werte:
+    </p>
+
+    <table>
+
+      <tr>
+        <th>basis</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>stated</code></td>
+        <td>
+          Information wurde vom Benutzer direkt angegeben.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>inferred</code></td>
+        <td>
+          Information folgt logisch aus den vorhandenen Benutzerdaten.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>conditional</code></td>
+        <td>
+          Information hängt von einer unbekannten Bedingung ab.
+        </td>
+      </tr>
+
+    </table>
+
+    <p>
+      Im aktuellen Code wird daraus unter anderem die interne
+      <code>provenance</code> erzeugt:
+    </p>
+
+    <pre>
+stated      -> confidence: high
+inferred    -> confidence: medium
+conditional -> confidence: low
+    </pre>
+
+    <div class="important">
+
+      <strong>Wichtig:</strong>
+
+      Diese technische Confidence beschreibt die Herkunft bzw.
+      Sicherheit der Aussage und ist <strong>nicht dasselbe</strong>
+      wie die persönliche Entscheidungs-Confidence des Benutzers.
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 15. CONFIDENCE -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>15. Verschiedene Arten von Confidence</h2>
+
+    <p>
+      Das Datenmodell unterscheidet bewusst verschiedene Bedeutungen
+      von "confidence".
+    </p>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Bedeutung</th>
+        <th>Empfohlener Bereich</th>
+      </tr>
+
+      <tr>
+        <td><code>DECISION.confidence</code></td>
+        <td>
+          Wie sicher ist der Benutzer bei seiner eigenen Entscheidung?
+        </td>
+        <td>1–10</td>
+      </tr>
+
+      <tr>
+        <td><code>REFLECTION.confidence</code></td>
+        <td>
+          Wie sicher fühlt sich der Benutzer zum Zeitpunkt der Reflexion?
+        </td>
+        <td>1–10</td>
+      </tr>
+
+      <tr>
+        <td><code>DECISION_EMOTION.confidence</code></td>
+        <td>
+          Wie sicher ist die AI, dass eine Emotion relevant erkannt wurde?
+        </td>
+        <td>0–100</td>
+      </tr>
+
+    </table>
+
+    <div class="note">
+
+      <strong>PostgreSQL:</strong>
+
+      <pre>
+CHECK (confidence BETWEEN 1 AND 10)
+      </pre>
+
+      bzw. bei der AI-Emotionserkennung:
+
+      <pre>
+CHECK (confidence BETWEEN 0 AND 100)
+      </pre>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 16. NUMERIC RANGES -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>16. Numerische Werte und Wertebereiche</h2>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Vorschlag</th>
+      </tr>
+
+      <tr>
+        <td><code>confidence</code></td>
+        <td>
+          1–10 für Benutzer-Confidence
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>importance</code></td>
+        <td>
+          1–10
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>likelihood</code></td>
+        <td>
+          Muss vor der Implementierung eindeutig definiert werden.
+          Entweder 0–1 oder 0–100.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>DECISION_EMOTION.confidence</code></td>
+        <td>
+          0–100 empfohlen.
+        </td>
+      </tr>
+
+    </table>
+
+    <div class="warning">
+
+      <strong>Wichtig:</strong>
+
+      <p>
+        Die aktuellen AI-Prompts erzeugen keine echte Wahrscheinlichkeit
+        für zukünftige Ereignisse.
+      </p>
+
+      <p>
+        Das Feld <code>likelihood</code> sollte daher nicht so verwendet
+        werden, als würde die AI die Zukunft vorhersagen.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 17. EMOTIONS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>17. Emotionen und Reflexionsraum</h2>
+
+    <p>
+      Emotionen werden über eine separate Katalogtabelle verwaltet.
+      Die Zuordnung zu einer AI-Analyse erfolgt über
+      <code>DECISION_EMOTION</code>.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>Emotion</th>
+        <th>Beispiel für visuelles Element</th>
+      </tr>
+
+      <tr>
+        <td>Fear</td>
+        <td>Geschlossene Truhe oder Schublade</td>
+      </tr>
+
+      <tr>
+        <td>Hope</td>
+        <td>Licht durch ein Fenster</td>
+      </tr>
+
+      <tr>
+        <td>Long-term assumption</td>
+        <td>Entfernte Tür oder Eingang</td>
+      </tr>
+
+    </table>
+
+    <h3>DECISION_EMOTION</h3>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>analysis_id</code></td>
+        <td>
+          AI-Analyse, durch die die Emotion erkannt wurde.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>emotion_id</code></td>
+        <td>
+          Erkannte Emotion.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>confidence</code></td>
+        <td>
+          Confidence der Emotionserkennung.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>evidence</code></td>
+        <td>
+          Textliche Grundlage bzw. Begründung für die Zuordnung.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>
+          Zeitpunkt der Erkennung.
+        </td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 18. REFLECTION -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>18. Reflection und späterer Rückblick</h2>
+
+    <p>
+      Eine Entscheidung kann nach mehreren Monaten erneut reflektiert
+      werden. Deshalb besteht eine 1:n-Beziehung zwischen
+      <code>DECISION</code> und <code>REFLECTION</code>.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>what_decided</code></td>
+        <td>Was wurde entschieden?</td>
+      </tr>
+
+      <tr>
+        <td><code>why_decided</code></td>
+        <td>Warum wurde diese Entscheidung getroffen?</td>
+      </tr>
+
+      <tr>
+        <td><code>expected_outcome</code></td>
+        <td>Was wurde erwartet?</td>
+      </tr>
+
+      <tr>
+        <td><code>fear</code></td>
+        <td>Wovor hatte der Benutzer Angst?</td>
+      </tr>
+
+      <tr>
+        <td><code>hope</code></td>
+        <td>Was wurde erhofft?</td>
+      </tr>
+
+      <tr>
+        <td><code>actual_outcome</code></td>
+        <td>Was ist tatsächlich passiert?</td>
+      </tr>
+
+      <tr>
+        <td><code>confidence</code></td>
+        <td>
+          Confidence des Benutzers zum Zeitpunkt dieser Reflexion.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>reflection_date</code></td>
+        <td>Zeitpunkt der Reflexion.</td>
+      </tr>
+
+    </table>
+
+    <div class="success">
+
+      <strong>Mehrere Reflexionen sind möglich.</strong>
+
+      <p>
+        Dadurch kann beispielsweise eine Entscheidung direkt nach dem
+        Treffen, nach sechs Monaten und später erneut betrachtet werden.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 19. DECISION TREE -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>19. Entscheidungsbaum</h2>
+
+    <p>
+      Dein aktueller AI-Code erzeugt:
+    </p>
+
+    <pre>
+branches
+  |
+  +-- condition
+  |
+  +-- outcomes
+        |
+        +-- text
+        +-- timeframe
+    </pre>
+
+    <p>
+      Deshalb ist eine normalisierte Struktur mit drei zusätzlichen
+      Tabellen für die aktuelle Implementierung nicht zwingend notwendig.
+    </p>
+
+    <p>
+      Stattdessen kann der komplette Baum als JSONB in
+      <code>AI_ANALYSIS.decision_tree</code> gespeichert werden.
+    </p>
+
+    <div class="note">
+
+      <strong>Beispiel:</strong>
+
+      <pre>
+{
+  "startingPoint": "Option A",
+  "branches": [
+    {
+      "condition": "Wenn zusätzliche Kosten entstehen",
+      "outcomes": [
+        {
+          "text": "Die Entscheidung wird erneut betrachtet.",
+          "timeframe": "short_term"
+        },
+        {
+          "text": "Weitere Informationen werden eingeholt.",
+          "timeframe": "immediate"
+        }
+      ]
+    }
+  ]
+}
+      </pre>
+
+    </div>
+
+    <p>
+      Separate Tabellen für Branches und Outcomes können später ergänzt
+      werden, falls Benutzer diese Elemente einzeln bearbeiten,
+      durchsuchen oder versionieren sollen.
+    </p>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 20. MISSING INFORMATION -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>20. MISSING_INFORMATION</h2>
+
+    <p>
+      Die AI liefert auf Entscheidungsebene eine Liste
+      <code>missingInformation</code>.
+    </p>
+
+    <p>
+      Diese Informationen können optional persistent gespeichert werden,
+      wenn sie im Frontend vom Benutzer verwaltet werden sollen.
+    </p>
+
+    <table>
+
+      <tr>
+        <th>Feld</th>
+        <th>Bedeutung</th>
+      </tr>
+
+      <tr>
+        <td><code>id</code></td>
+        <td>PK</td>
+      </tr>
+
+      <tr>
+        <td><code>decision_id</code></td>
+        <td>FK zur Entscheidung</td>
+      </tr>
+
+      <tr>
+        <td><code>content</code></td>
+        <td>Fehlende Information</td>
+      </tr>
+
+      <tr>
+        <td><code>resolved</code></td>
+        <td>
+          Gibt an, ob die Information inzwischen geklärt wurde.
+        </td>
+      </tr>
+
+      <tr>
+        <td><code>created_at</code></td>
+        <td>Erstellungszeitpunkt</td>
+      </tr>
+
+    </table>
+
+    <div class="note">
+
+      Falls <code>missingInformation</code> nur temporär im AI-Response
+      angezeigt wird, könnte diese Tabelle auch weggelassen werden.
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 21. RANDOMIZER -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>21. Randomizer / "Leave it to fate"</h2>
+
+    <p>
+      Der Randomizer benötigt in der aktuellen Version keine eigene
+      Datenbanktabelle.
+    </p>
+
+    <ul>
+      <li>Choose A</li>
+      <li>Choose B</li>
+      <li>Think about it for another day</li>
+      <li>Ask someone you trust</li>
+      <li>Sleep on it</li>
+      <li>Flip a coin</li>
+    </ul>
+
+    <p>
+      Diese Funktion kann als Frontend-/Backend-Logik implementiert werden.
+    </p>
+
+    <p>
+      Eine eigene Tabelle wird erst notwendig, wenn die Anwendung
+      historische Randomizer-Ergebnisse dauerhaft speichern soll.
+    </p>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 22. USER DATA VS AI DATA -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>22. Trennung von User-Daten und AI-Daten</h2>
+
+    <div class="success">
+
+      <h3>User Data</h3>
+
+      <pre>
+USER
+ |
+ +-- USER_PROFILE
+ |
+ +-- DECISION
+       |
+       +-- DECISION_OPTION
+       |     |
+       |     +-- PRO_CONTRA
+       |     +-- ASSUMPTION
+       |     +-- BENEFIT
+       |
+       +-- PERSONAL_QUESTION
+       +-- MISSING_INFORMATION
+       +-- REFLECTION
+      </pre>
+
+    </div>
+
+    <div class="note">
+
+      <h3>AI Data</h3>
+
+      <pre>
+DECISION
+ |
+ +-- AI_ANALYSIS
+       |
+       +-- AI_SUGGESTION
+       |
+       +-- DECISION_EMOTION
+       |
+       +-- decision_tree JSONB
+      </pre>
+
+    </div>
+
+    <p>
+      Diese Trennung ist ein wichtiger Bestandteil der Architektur.
+      AI-Daten können neu erzeugt werden, ohne die vom Benutzer erstellten
+      Informationen zu überschreiben.
+    </p>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 23. AI PROCESS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>23. Ablauf der AI-Analyse</h2>
+
+    <ol>
+
+      <li>
+        Benutzer erstellt eine <code>DECISION</code>.
+      </li>
+
+      <li>
+        Benutzer erstellt die gewünschten
+        <code>DECISION_OPTION</code>-Einträge.
+      </li>
+
+      <li>
+        Das Backend sendet Decision + Profile an die AI.
+      </li>
+
+      <li>
+        Die AI analysiert jede Option.
+      </li>
+
+      <li>
+        Eine neue <code>AI_ANALYSIS</code> wird gespeichert.
+      </li>
+
+      <li>
+        AI-Vorschläge werden als
+        <code>AI_SUGGESTION</code> gespeichert.
+      </li>
+
+      <li>
+        Emotionen können als
+        <code>DECISION_EMOTION</code> gespeichert werden.
+      </li>
+
+      <li>
+        Der Benutzer entscheidet selbst, welche Vorschläge übernommen werden.
+      </li>
+
+    </ol>
+
+    <div class="important">
+
+      <strong>Wichtig:</strong>
+
+      <p>
+        Die AI darf nicht automatisch die vom Benutzer erstellten
+        Optionen verändern oder löschen.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 24. SECURITY -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>24. Technische und sicherheitsrelevante Abgrenzung</h2>
+
+    <div class="note">
+
+      <strong>AI API Key:</strong>
+
+      <p>
+        Der API-Key gehört nicht in die Datenbank.
+      </p>
+
+      <p>
+        Er sollte im Backend als Secret bzw. Environment-Variable
+        gespeichert werden, beispielsweise:
+      </p>
+
+      <pre>
+GEMINI_API_KEY=...
+GEMINI_MODEL=...
+GEMINI_FALLBACK_MODELS=...
+      </pre>
+
+    </div>
+
+    <div class="note">
+
+      <strong>Illegale und gefährliche Inhalte:</strong>
+
+      <p>
+        Die Filterung solcher Inhalte gehört zur Backend-/AI-Logik
+        und ist keine eigene Kernentität des ER-Modells.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 25. CURRENT CODE ALIGNMENT -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>25. Abgleich mit decisionAnalysis.test.js</h2>
+
+    <table>
+
+      <tr>
+        <th>Aktueller Code</th>
+        <th>Warum es zum Datenmodell passt</th>
+      </tr>
+
+      <tr>
+        <td>
+          <code>decision.options</code>
+        </td>
+        <td>
+          Entspricht <code>DECISION_OPTION</code>.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>optionId</code>
+        </td>
+        <td>
+          Referenz auf <code>DECISION_OPTION.id</code>.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>pros</code> / <code>cons</code>
+        </td>
+        <td>
+          Werden als <code>PRO_CONTRA</code> gespeichert.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>benefits</code>
+        </td>
+        <td>
+          Werden als <code>BENEFIT</code> gespeichert.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>assumptions</code>
+        </td>
+        <td>
+          Werden als <code>ASSUMPTION</code> gespeichert.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>questions</code>
+        </td>
+        <td>
+          Werden als <code>PERSONAL_QUESTION</code> gespeichert.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>branches</code>
+        </td>
+        <td>
+          Können in <code>AI_ANALYSIS.decision_tree</code> gespeichert werden.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>missingInformation</code>
+        </td>
+        <td>
+          Kann in <code>MISSING_INFORMATION</code> gespeichert werden.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>sourceQuote</code>
+        </td>
+        <td>
+          Kann als Provenance-/Audit-Information in einer späteren
+          Implementierung ergänzt werden, wenn diese Nachvollziehbarkeit
+          dauerhaft gespeichert werden soll.
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <code>basis</code>
+        </td>
+        <td>
+          <code>stated</code>, <code>inferred</code> und
+          <code>conditional</code> beschreiben die Herkunft einer AI-Aussage.
+        </td>
+      </tr>
+
+    </table>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 26. POSSIBLE FUTURE EXTENSIONS -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>26. Mögliche spätere Erweiterungen</h2>
+
+    <p>
+      Diese Tabellen sind für die aktuelle Architektur nicht zwingend
+      erforderlich, könnten aber später sinnvoll werden:
+    </p>
+
+    <ul>
+
+      <li>
+        Separate Tabelle für detaillierte AI-Provenance,
+        falls <code>sourceQuote</code> dauerhaft gespeichert werden soll.
+      </li>
+
+      <li>
+        Separate Decision-Tree-Tabellen, falls Benutzer einzelne
+        Branches bearbeiten können.
+      </li>
+
+      <li>
+        Randomizer-History, falls Zufallsergebnisse gespeichert werden sollen.
+      </li>
+
+      <li>
+        Versionierung von AI-Analysen und Prompts.
+      </li>
+
+      <li>
+        Speicherung der tatsächlich akzeptierten AI-Suggestion,
+        falls eine detaillierte Audit-Historie benötigt wird.
+      </li>
+
+    </ul>
+
+    <div class="note">
+
+      Diese Erweiterungen sollten erst hinzugefügt werden,
+      wenn die entsprechende Funktionalität tatsächlich benötigt wird.
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 27. WORK PACKAGE -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>27. Abgrenzung zum Arbeitspaket 2.3</h2>
+
+    <p>
+      Dieses ER-Diagramm beschreibt das fachliche Datenmodell der
+      Decision-Making-App.
+    </p>
+
+    <p>
+      Enthalten sind:
+    </p>
+
+    <ul>
+      <li>Entitäten</li>
+      <li>Attribute</li>
+      <li>Primärschlüssel</li>
+      <li>Fremdschlüssel</li>
+      <li>Beziehungen</li>
+      <li>User-Datenmodell</li>
+      <li>AI-Analysemodell</li>
+      <li>AI-Vorschläge</li>
+      <li>Emotionsmodell</li>
+      <li>Reflexionsmodell</li>
+      <li>optionales JSONB-Modell für den Entscheidungsbaum</li>
+    </ul>
+
+    <p>
+      Nicht Bestandteil dieses Arbeitspakets sind die konkrete
+      PostgreSQL-Implementierung, Sequelize-Migrationen, Express-Routen,
+      AI-API-Aufrufe und sonstige Backend-Logik.
+    </p>
+
+    <div class="success">
+
+      <strong>Ziel des Datenmodells:</strong>
+
+      <p>
+        Die Benutzerentscheidung bleibt die zentrale Datenquelle.
+        Die AI liefert unterstützende Analysen und Vorschläge,
+        verändert aber nicht eigenständig die vom Benutzer definierten
+        Entscheidungsoptionen.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- 28. FINAL SUMMARY -->
+  <!-- ===================================================== -->
+
+  <section class="card">
+
+    <h2>28. Finaler Überblick</h2>
+
+    <div class="important">
+
+      <ol>
+
+        <li>
+          <strong>DECISION.final_option_id</strong> ersetzt
+          <code>final_choice</code>.
+        </li>
+
+        <li>
+          Redundante <code>decision_id</code>-Felder aus
+          option-abhängigen Tabellen wurden entfernt.
+        </li>
+
+        <li>
+          <code>option_id</code> bei
+          <code>PERSONAL_QUESTION</code> kann NULL sein.
+        </li>
+
+        <li>
+          <code>AI_SUGGESTION.option_id</code> kann NULL sein.
+        </li>
+
+        <li>
+          <code>AI_ANALYSIS</code> repräsentiert eine einzelne
+          AI-Ausführung.
+        </li>
+
+        <li>
+          <code>AI_SUGGESTION</code> gehört zu
+          <code>AI_ANALYSIS</code>.
+        </li>
+
+        <li>
+          <code>AI_SUGGESTION.source</code> wurde entfernt.
+        </li>
+
+        <li>
+          Der aktuelle Entscheidungsbaum kann als
+          <code>JSONB</code> gespeichert werden.
+        </li>
+
+        <li>
+          Confidence-, Importance- und Likelihood-Werte benötigen
+          definierte Wertebereiche.
+        </li>
+
+        <li>
+          Die verschiedenen Bedeutungen von Confidence werden getrennt.
+        </li>
+
+        <li>
+          <code>DECISION_EMOTION.created_at</code> dokumentiert
+          den Zeitpunkt der AI-Erkennung.
+        </li>
+
+        <li>
+          User-Daten und AI-Daten bleiben logisch getrennt.
+        </li>
+
+        <li>
+          Der Randomizer benötigt aktuell keine Datenbanktabelle.
+        </li>
+
+      </ol>
+
+    </div>
+
+  </section>
+
+</main>
 
 </body>
 </html>
+```
