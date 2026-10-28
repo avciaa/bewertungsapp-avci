@@ -42,10 +42,10 @@ Eigene `config/config.json` lokal aus `config/config.example.json` ableiten, nic
 
 ## Einheit 4: Backend-Routen
 
-- [ ] CRUD für Team und Project
-- [ ] POST-Route für Evaluation inkl. Validierung
-- [ ] Aggregations-Route: Durchschnitt der Punktzahl pro Projekt und Kriterium
-- [ ] Kurze Endpunkt-Dokumentation (Methode, Pfad, Body, Rückgabe) unten in diesem README oder in `docs/`
+- [x] CRUD für Team und Project
+- [x] POST-Route für Evaluation inkl. Validierung
+- [x] Aggregations-Route: Durchschnitt der Punktzahl pro Projekt und Kriterium
+- [x] Kurze Endpunkt-Dokumentation (Methode, Pfad, Body, Rückgabe) unten in diesem README oder in `docs/`
 
 ## Einheit 5: Postman-Test
 
