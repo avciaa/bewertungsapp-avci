@@ -56,9 +56,9 @@ Eigene `config/config.json` lokal aus `config/config.example.json` ableiten, nic
 
 ## Einheit 6: IONIC-Frontend
 
-- [ ] Projektliste mit Team-Zuordnung
-- [ ] Detailansicht eines Projekts mit bisherigen Bewertungen
-- [ ] API-Service vollständig an eigenes Backend angebunden
+- [x] Projektliste mit Team-Zuordnung
+- [x] Detailansicht eines Projekts mit bisherigen Bewertungen
+- [x] API-Service vollständig an eigenes Backend angebunden
 
 ## Einheit 7: Login und Endabgabe
 
