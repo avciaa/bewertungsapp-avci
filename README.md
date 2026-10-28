@@ -76,3 +76,49 @@ Eigene `config/config.json` lokal aus `config/config.example.json` ableiten, nic
 ## Bekannte Einschränkungen
 
 <hier eintragen, was noch fehlt oder bekannt fehlerhaft ist>
+
+## Einheit 4: Backend-Routen (kurz doku)
+
+### Teams
+
+| Methode | Pfad | Body | Rückgabe |
+|---|---|---|---|
+| GET | `/teams` | – | Liste aller Teams |
+| GET | `/teams/:id` | – | Team mit Projekten und Mitgliedern |
+| POST | `/teams` | `{"name":"Team Blockchain","klasse":"4ITL"}` | `201 Created`: erstelltes Team |
+| PUT | `/teams/:id` | `{"name":"Team Blockchain","klasse":"4ITL"}` | `200 OK`: aktualisiertes Team |
+| DELETE | `/teams/:id` | – | `204 No Content` |
+
+### Projekte
+
+| Methode | Pfad | Body | Rückgabe |
+|---|---|---|---|
+| GET | `/projects` | – | Liste aller Projekte inklusive Team |
+| GET | `/projects/:id` | – | Projekt inklusive Team |
+| POST | `/projects` | `{"teamId":1,"titel":"Bewertungsapp","beschreibung":"Projektbeschreibung","praesentiertAm":"2026-06-12"}` | `201 Created`: erstelltes Projekt |
+| PUT | `/projects/:id` | Dieselben Felder wie bei POST | `200 OK`: aktualisiertes Projekt |
+| DELETE | `/projects/:id` | – | `204 No Content` |
+
+### Bewertungen
+
+| Methode | Pfad | Body | Rückgabe |
+|---|---|---|---|
+| POST | `/evaluations` | `{"projectId":1,"criterionId":1,"jurorId":1,"score":8,"comment":"Gute Umsetzung des Projekts"}` | `201 Created`: gespeicherte Bewertung |
+
+Die Bewertungsroute prüft Pflichtfelder, die Punktzahl, die Existenz von Projekt, Kriterium und Juror sowie doppelte Bewertungen. Fehler werden mit passenden HTTP-Statuscodes zurückgegeben, z. B. `400`, `404` oder `409`.
+
+### Statistik
+
+| Methode | Pfad | Body | Rückgabe |
+|---|---|---|---|
+| GET | `/statistik/projekte/durchschnitt` | – | Durchschnittliche Punktzahl je Projekt und Kriterium, inklusive Projekt- und Kriterienname |
+
+### API-Status
+
+| Methode | Pfad | Body | Rückgabe |
+|---|---|---|---|
+| GET | `/` | – | `200 OK`: Statusmeldung, dass die API läuft |
+
+**Basis-URL:** `http://localhost:3000`
+
+
