@@ -1,0 +1,42 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Bewertungsapp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1>Unsere Projekte</h1>
+
+  <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+
+
+  <ion-text color="danger" *ngIf="error">
+    <p>{{ error }}</p>
+  </ion-text>
+
+<ion-card *ngFor="let project of projects"
+          [routerLink]="['/projekt-detail', project.id]">
+    <ion-card-header>
+      <ion-card-title>{{ project.titel }}</ion-card-title>
+      <ion-card-subtitle>
+        Team: {{ project.Team?.name || 'Kein Team angegeben' }}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{ project.beschreibung }}</p>
+      <p *ngIf="project.praesentiertAm">
+        Präsentiert am: {{ project.praesentiertAm | date:'dd.MM.yyyy' }}
+      </p>
+      <ion-button fill="clear">
+        Details ansehen
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <p *ngIf="!loading && !error && projects.length === 0">
+    Es sind noch keine Projekte vorhanden.
+  </p>
+</ion-content>

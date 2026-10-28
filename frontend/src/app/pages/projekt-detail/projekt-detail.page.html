@@ -1,0 +1,65 @@
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/projekte-liste"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Projektdetails</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+
+  <ion-text color="danger" *ngIf="error">
+    <p>{{ error }}</p>
+  </ion-text>
+
+  <div *ngIf="!loading && !error && project">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ project.titel }}</ion-card-title>
+
+<ion-card-subtitle>
+  Team: {{ project.Team?.name || 'Kein Team angegeben' }}
+</ion-card-subtitle>
+        <ion-card-subtitle>
+          Team: {{ project.Team?.name || 'Kein Team angegeben' }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <h2>Beschreibung</h2>
+        <p>{{ project.beschreibung }}</p>
+
+        <p *ngIf="project.praesentiertAm">
+          <strong>Präsentiert am:</strong>
+          {{ project.praesentiertAm | date:'dd.MM.yyyy' }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <h2>Bewertungen</h2>
+    
+<div *ngIf="evaluations.length === 0">
+  <p>Für dieses Projekt gibt es noch keine Bewertungen.</p>
+</div>
+
+<ion-card *ngFor="let evaluation of evaluations">
+  <ion-card-header>
+    <ion-card-title>
+      {{ evaluation.Criterion?.name || 'Bewertung' }}
+    </ion-card-title>
+    <ion-card-subtitle>
+      Juror: {{ evaluation.Juror?.name || 'Unbekannt' }}
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <h2>{{ evaluation.score }} / {{ evaluation.Criterion?.maxScore || 10 }} Punkte</h2>
+    <p>{{ evaluation.comment || 'Kein Kommentar vorhanden.' }}</p>
+  </ion-card-content>
+</ion-card>
+
+  </div>
+</ion-content>

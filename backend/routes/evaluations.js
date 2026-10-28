@@ -3,6 +3,29 @@ const router = express.Router();
 const db = require('../models');
 const { Evaluation, Project, Criterion, Juror } = db;
 
+
+ // GET: alle Bewertungen eines Projekts abrufen
+ router.get('/project/:projectId', async (req, res) => {
+  try {
+    const evaluations = await Evaluation.findAll({
+      where: { projectId: req.params.projectId },
+      include: [
+        { model: Criterion },
+        { model: Juror }
+      ]
+    });
+
+    res.json(evaluations);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Bewertungen konnten nicht geladen werden'
+    });
+  }
+});
+
+
+
 // POST: neue Bewertung erstellen
 router.post('/', async (req, res) => {
   try {
